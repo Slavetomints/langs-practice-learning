@@ -1,0 +1,20 @@
+program demoVars;
+#include ( "stdlib.hhf" );
+
+static;
+    initDemo:       int32 := 5;
+    notInitialized: int32;
+
+begin demoVars;
+    // Display the value of the pre-initialized variable
+    stdout.put( "The value of initDemo is ", initDemo, nl );
+
+    // Display the value of the non-initialized variable
+    stdout.put( "The value of notInitialized is ", notInitialized, nl );
+
+    // Get a value from the user and assign it to notInitialized
+    stdout.put( "Please enter a value", nl );
+    stdin.get( notInitialized );
+    stdout.put( "Now the value of notInitialized is ", notInitialized, nl );
+
+end demoVars;
