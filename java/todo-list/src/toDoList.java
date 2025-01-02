@@ -8,7 +8,9 @@ public class toDoList {
 
     // Initializing the file and the actual to do list to it can be referenced in multiple functions later. 
     static ArrayList<String> toDoList = new ArrayList<String>();
-    static File toDoListFile = new File("tmp/to_do_list.txt");
+    static File toDoListFile = new File("../tmp/to_do_list.txt");
+    static Scanner keyboard = new Scanner(System.in);
+
     public static void main(String[] args) throws Exception {
         title();
         initToDoList();
@@ -30,6 +32,18 @@ public class toDoList {
 
     public static void initToDoList() {
         try {
+            // Check if the directory exists; if not, create it
+            if (!toDoListFile.getParentFile().exists()) {
+                toDoListFile.getParentFile().mkdirs();
+            }
+    
+            // Check if the file exists; if not, create it
+            if (!toDoListFile.exists()) {
+                toDoListFile.createNewFile();
+                System.out.println("To-Do List file created at: " + toDoListFile.getAbsolutePath());
+            }
+    
+            // Read the file and populate the to-do list
             Scanner reader = new Scanner(toDoListFile);
             while (reader.hasNextLine()) {
                 String item = reader.nextLine();
@@ -42,12 +56,12 @@ public class toDoList {
             error.printStackTrace();
         }
     }
+    
 
     public static int menu() {
         // Initialize the scanner object that is going to be used to gather the menu input
         // and the choice integer that will be used to return the menu selection. It is initialized to 3 so that 
         // if for some reason it isn't changed all that happens is that the list is shown and no edits will be made to it
-        Scanner keyboard = new Scanner(System.in);
         int choice = 3;
 
         // Print the menu options onto the screen
@@ -60,7 +74,6 @@ public class toDoList {
 
         // Gather the input and close the scanner object, and return the input in the integer choice
         choice = keyboard.nextInt();
-        keyboard.close();
         return choice;
     }
 
@@ -68,32 +81,34 @@ public class toDoList {
         switch(selection) {
             case 1:
                 addItem();
-                menu();
+                getMenuSelection(menu());
             case 2:
                 removeItem();
-                menu();
+                getMenuSelection(menu());
             case 3:
                 showList();
-                menu();
+                getMenuSelection(menu());
             case 999:
                 goodbye();
+                System.exit(0);
             default:
                 System.out.println("Please make a valid selection");
-                menu();
+                getMenuSelection(menu());
         }
     }
 
     public static void addItem() {
-        Scanner keyboard = new Scanner(System.in);
+        String item = keyboard.nextLine();
 
         System.out.println("What do you want to add to the list?");
-        toDoList.add(keyboard.nextLine());
-        keyboard.close();
-        showList();
+        toDoList.add(item);
     }
 
     public static void removeItem() {
-        Scanner keyboard = new Scanner(System.in);
+        if (toDoList.isEmpty()) {
+            System.out.println("The list is empty. Nothing to remove.");
+            getMenuSelection(menu());
+        }
         int removeIndex;
 
         showList();
@@ -102,12 +117,10 @@ public class toDoList {
         removeIndex = keyboard.nextInt();
         if (removeIndex > toDoList.size() || removeIndex < 0) {
             System.out.println("Please select a valid numver");
-            keyboard.close();
             removeItem();
         }
         
-        toDoList.remove(keyboard.nextInt());
-        keyboard.close();
+        toDoList.remove(removeIndex);
     }
 
     public static void showList() {
@@ -117,6 +130,7 @@ public class toDoList {
     }
 
     public static void goodbye() {
+        keyboard.close();
         System.out.println("\r\n" + //
                         "\r\n" + //
                         " _____ _           _   _          _    _ _   _____     _ _        _ \r\n" + //
