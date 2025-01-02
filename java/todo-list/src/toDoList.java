@@ -85,22 +85,34 @@ public class toDoList {
 
     public static void addItem() {
         Scanner keyboard = new Scanner(System.in);
-        String item;
 
         System.out.println("What do you want to add to the list?");
-        item = keyboard.nextLine();
-        toDoList.add(item);
+        toDoList.add(keyboard.nextLine());
         keyboard.close();
         showList();
     }
 
     public static void removeItem() {
+        Scanner keyboard = new Scanner(System.in);
+        int removeIndex;
 
+        showList();
+        System.out.println("Please enter the number of the item you wish to remove");
+
+        removeIndex = keyboard.nextInt();
+        if (removeIndex > toDoList.size() || removeIndex < 0) {
+            System.out.println("Please select a valid numver");
+            keyboard.close();
+            removeItem();
+        }
+        
+        toDoList.remove(keyboard.nextInt());
+        keyboard.close();
     }
 
     public static void showList() {
         for (int i = 0; i < toDoList.size(); i++) {
-            System.out.println(toDoList.get(i));
+            System.out.println((i + 1) + " - " + toDoList.get(i));
           }
     }
 
