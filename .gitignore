@@ -8,5 +8,5 @@ java/todo-list/tmp/*
 
 # C++ Binaries from projects
 *.out
-c++/challenges/check-printer/main
+c++/challenges/check-printer/check-printer
 
