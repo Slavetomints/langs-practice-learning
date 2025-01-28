@@ -11,3 +11,5 @@ java/todo-list/tmp/*
 c++/challenges/check-printer/check-printer
 c++/challenges/atm/atm
 
+Personal shell scripts
+bash/personal/*
