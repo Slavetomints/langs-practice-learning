@@ -1,3 +1,13 @@
+
+# YAML files
 *.yaml
 *.yml
+
+# Java binaries and tmp
 java/todo-list/tmp/*
+
+# C++ Binaries from projects
+*.out
+c++/challenges/check-printer/check-printer
+c++/challenges/atm/atm
+
