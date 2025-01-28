@@ -46,13 +46,16 @@ int transferMoney(int* atmMoney, int* userMoney) {
     int transferAmount;
     transferAmount = getTransferAmount();
     if (validateTransferAmount(atmMoney, transferAmount) == true) {
+      cout << "Transfering $" << transferAmount << " to User Account" << endl;
       *atmMoney = *atmMoney - transferAmount;
       *userMoney = *userMoney + transferAmount;
+      cout << "User Account Amount: $" << *userMoney << endl;
+      cout << "The ATM has $" << *atmMoney << " left to transfer out." << endl;
     }
     char userResponse;
     cout << "Would you like to transfer more money? (y/N)" << endl;
     cin >> userResponse;
-    if (userResponse == 'y' || userResponse == 'Y') {
+    if (userResponse == 'y' || userResponse == 'Y' || userResponse == 'yes' || userResponse == 'Yes') {
       transferAgain = true;
     } else if (userResponse == 'n' || userResponse == 'N') {
       transferAgain = false;
