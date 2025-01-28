@@ -9,4 +9,5 @@ java/todo-list/tmp/*
 # C++ Binaries from projects
 *.out
 c++/challenges/check-printer/check-printer
+c++/challenges/atm/atm
 
