@@ -3,6 +3,8 @@
 using namespace std;
 
 int showTitle() {
+  // This function just simply outputs the title of the program to the terminal,
+  // as well as the amounts you can transfer and the escape clause.
   cout << R"(@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@)" << endl;
   cout << R"(@   _   _____                              _     _            @)" << endl;
   cout << R"(@  /_\ /__   \/\/\        /\/\   __ _  ___| |__ (_)_ __   ___ @)" << endl;
@@ -18,21 +20,33 @@ int showTitle() {
 }
 
 int getTransferAmount() {
+  // this functions gets an amount from the user and passes it back.
   int amount;
   cin >> amount;
   return amount;
 }
 
 bool validateTransferAmount(int* atmMoney, int transferAmount) {
+
+  // It first checks if the amount is 0, as if it is then we escape the program.
   if (transferAmount == 0) {
     cout << "Exiting application" << endl;
-    return false;
+    exit(0);
+
+    // Next we check if the amount is something other than the amounts that
+    // we are allowed to transfer
   } else if (transferAmount != 40 && transferAmount != 80 && transferAmount != 200 && transferAmount != 400) {
     cout << "Please select a valid amount" << endl;;
     return false;
+
+    // Afterwards it makes sure that the atm has enough money to complete
+    // The desired transfer.
   } else if (*atmMoney - transferAmount < 0) {
     cout << "The ATM doesn't Have enough money for that transaction." << endl;
     return false;
+
+    // finally, if none of the previous checks fail, the transaction goes 
+    // through and the function passes back true.
   } else {
     cout << "Transaction Approved" << endl;
     return true;
@@ -40,11 +54,19 @@ bool validateTransferAmount(int* atmMoney, int transferAmount) {
 }
 
 int transferMoney(int* atmMoney, int* userMoney) {
-  bool transferAgain = true;
-  while (transferAgain) {
+  // This function contains the main logic behind the money transfers atmMoney 
+  // and userMoney are pointers back to their original values to simplify the
+  // process of updating them.
+    
     showTitle();
+
+    // crates the variable and sets it to an amount specified by the user
     int transferAmount;
     transferAmount = getTransferAmount();
+
+    // here is where we send the amount plus the current values of the atm to 
+    // be validated, if the validation is successful the transfer goes through 
+    // and the totals are updated.
     if (validateTransferAmount(atmMoney, transferAmount) == true) {
       cout << "Transfering $" << transferAmount << " to User Account" << endl;
       *atmMoney = *atmMoney - transferAmount;
@@ -52,25 +74,38 @@ int transferMoney(int* atmMoney, int* userMoney) {
       cout << "User Account Amount: $" << *userMoney << endl;
       cout << "The ATM has $" << *atmMoney << " left to transfer out." << endl;
     }
-    char userResponse;
-    cout << "Would you like to transfer more money? (y/N)" << endl;
-    cin >> userResponse;
-    if (userResponse == 'y' || userResponse == 'Y' || userResponse == 'yes' || userResponse == 'Yes') {
-      transferAgain = true;
-    } else if (userResponse == 'n' || userResponse == 'N') {
-      transferAgain = false;
-    } else {
-      transferAgain = false;
-    }
-  }
   return 0;
 }
 
 int main() {
+  // This is the main function and the entry point for the program.
+
+  // Setting up the variable and the pointers used to update them throughout the
+  // program's life, as well as the bool used to control the looping
   int atmMoney = 500;
   int* atmMoneyPointer = &atmMoney;
   int userMoney = 1000;
   int* userMoneyPointer = &userMoney;
-  transferMoney(atmMoneyPointer, userMoneyPointer);  
+  bool transferAgain = true;
+
+  
+  // As long a the bool transferAgain is true, this will loop.
+  while (transferAgain) {
+    transferMoney(atmMoneyPointer, userMoneyPointer); 
+      // now we need to see if the user wants to transfer money again
+    char userResponse;
+    cout << "Would you like to transfer more money? (y/N)" << endl;
+    cin >> userResponse;
+
+    // This needs to account for all types of truthy responses.
+    if (userResponse == 'y' || userResponse == 'Y' || userResponse == 'yes' || userResponse == 'Yes' || userResponse == 'YES') {
+      transferAgain = true;      
+    } else {
+      // Since the N is uppercase in the prompt. following unofficial standards
+      // it is the default if nothing else of truthy value is given, so anything 
+      // that doesn't resolve to yes will be taken as a no.
+      transferAgain = false;
+    }
+  }
   return 0;
 }
