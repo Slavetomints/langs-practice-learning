@@ -22,7 +22,7 @@ begin demoMovAddSub;
     // three different variables and
     // print the result.
     // 
-    // Note: begcause the numbers are
+    // Note: because the numbers are
     // negative, we have to negate them
     //
     // Using only the mov, add, and sub 
