@@ -15,8 +15,12 @@ c++/challenges/atm/atm
 bash/personal/*
 
 # CE c/c++ toolkit
+c++/CEdev/bin
 c++/CEdev/bin/*
+c++/CEdev/examples
 c++/CEdev/examples/*
+c++/CEdev/include
 c++/CEdev/include/*
+c++/CEdev/lib
 c++/CEdev/lib/*
 c++/CEdev/meta/*
