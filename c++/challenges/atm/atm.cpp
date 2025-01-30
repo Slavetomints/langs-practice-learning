@@ -1,4 +1,5 @@
 #include <iostream>
+#include <limits>
 
 using namespace std;
 
@@ -21,14 +22,13 @@ int showTitle() {
 
 int getTransferAmount() {
   // this functions gets an amount from the user and passes it back.
-  int amount;
+  int amount = 0;
   cin >> amount;
   return amount;
 }
 
 bool validateTransferAmount(int* atmMoney, int transferAmount) {
-
-  // It first checks if the amount is 0, as if it is then we escape the program.
+  // It checks if the amount is 0, as if it is then we escape the program.
   if (transferAmount == 0) {
     cout << "Exiting application" << endl;
     exit(0);
@@ -36,13 +36,15 @@ bool validateTransferAmount(int* atmMoney, int transferAmount) {
     // Next we check if the amount is something other than the amounts that
     // we are allowed to transfer
   } else if (transferAmount != 40 && transferAmount != 80 && transferAmount != 200 && transferAmount != 400) {
-    cout << "Please select a valid amount" << endl;;
+    cout << "Please select a valid amount" << endl;
+    cin.clear();
     return false;
 
     // Afterwards it makes sure that the atm has enough money to complete
     // The desired transfer.
   } else if (*atmMoney - transferAmount < 0) {
     cout << "The ATM doesn't Have enough money for that transaction." << endl;
+    cin.clear();
     return false;
 
     // finally, if none of the previous checks fail, the transaction goes 
@@ -58,22 +60,37 @@ int transferMoney(int* atmMoney, int* userMoney) {
   // and userMoney are pointers back to their original values to simplify the
   // process of updating them.
     
-    showTitle();
+  showTitle();
 
-    // crates the variable and sets it to an amount specified by the user
-    int transferAmount;
+  // Creates the variable and sets it to an amount specified by the user
+  int transferAmount;
+  
+  // Loop until a valid amount is entered
+  while (true) {
     transferAmount = getTransferAmount();
+    if (cin.fail()) {
+      cout << "Please enter an integer" << endl;
 
-    // here is where we send the amount plus the current values of the atm to 
-    // be validated, if the validation is successful the transfer goes through 
-    // and the totals are updated.
-    if (validateTransferAmount(atmMoney, transferAmount) == true) {
-      cout << "Transfering $" << transferAmount << " to User Account" << endl;
-      *atmMoney = *atmMoney - transferAmount;
-      *userMoney = *userMoney + transferAmount;
-      cout << "User Account Amount: $" << *userMoney << endl;
-      cout << "The ATM has $" << *atmMoney << " left to transfer out." << endl;
+      // get rid of failure state
+      cin.clear(); 
+
+      // discard 'bad' character(s) 
+      cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+      transferMoney(atmMoney, userMoney);
     }
+    if (validateTransferAmount(atmMoney, transferAmount)) {
+      break; // Exit the loop if the amount is valid
+    }
+  }
+
+  // Perform the transfer
+  cout << "Transferring $" << transferAmount << " to User Account" << endl;
+  *atmMoney = *atmMoney - transferAmount;
+  *userMoney = *userMoney + transferAmount;
+  cout << "User Account Amount: $" << *userMoney << endl;
+  cout << "The ATM has $" << *atmMoney << " left to transfer out." << endl;
+
   return 0;
 }
 
@@ -91,6 +108,7 @@ int main() {
   
   // As long a the bool transferAgain is true, this will loop.
   while (transferAgain) {
+    transferAgain = false;
     transferMoney(atmMoneyPointer, userMoneyPointer); 
       // now we need to see if the user wants to transfer money again
     char userResponse;
