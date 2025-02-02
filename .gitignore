@@ -1,3 +1,6 @@
+# Workspace settings
+.vscode/
+
 
 # YAML files
 *.yaml
@@ -8,8 +11,15 @@ java/todo-list/tmp/*
 
 # C++ Binaries from projects
 *.out
-c++/challenges/check-printer/check-printer
+
 c++/challenges/atm/atm
+c++/challenges/check-printer/check-printer
+c++/challenges/annual-pay/annual-pay
+c++/challenges/miles-per-gallon/miles-per-gallon
+c++/challenges/restaurant-bill/restaurant-bill
+c++/challenges/sum/sum
+c++/challenges/total-purchase/total-purchase
+
 
 #Personal shell scripts
 bash/personal/*
