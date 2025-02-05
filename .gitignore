@@ -9,19 +9,25 @@
 # Java binaries and tmp
 java/todo-list/tmp/*
 
-# C++ Binaries from projects
+# C++ Binaries
 *.out
 
+# Challenges
+c++/challenges/annual-pay/annual-pay
 c++/challenges/atm/atm
 c++/challenges/check-printer/check-printer
-c++/challenges/annual-pay/annual-pay
+c++/challenges/currency/currency
+c++/challenges/ingredient-adjuster/ingredient-adjuster
+c++/challenges/miles-per-gallon/ask-miles-per-gallon
 c++/challenges/miles-per-gallon/miles-per-gallon
 c++/challenges/restaurant-bill/restaurant-bill
+c++/challenges/stadium-seating/stadium-seating
 c++/challenges/sum/sum
 c++/challenges/total-purchase/total-purchase
 
+# Projects
 c++/projects/cyoa/cyoa
 
 
-#Personal shell scripts
+# Personal shell scripts
 bash/personal/*
