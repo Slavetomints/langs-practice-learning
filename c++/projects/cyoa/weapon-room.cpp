@@ -1,28 +1,29 @@
+#include <cctype>
 #include <iostream>
-
-//#include "titles.cpp"
 
 using namespace std;
 
 class WeaponRoom {
-  private:
   public:
   
   WeaponRoom(string* inventory) {
+    // Opening lines
     cout << "You enter the weapon room, and you see the rows of " << endl;
     cout << "swords, axes, and bows. All for the taking" << endl;
     cout << endl;
 
+    // majority of the logic for the room is here
     getWeapon(inventory);
   }
 
   void getWeapon(string* inventory) {
-    char playerInput;
+    string playerInput;
     
+    // if the player wants a weapon we continue, else we stop and go back to the map
     cout << "Would you like to grab a weapon? (y/n)";
     cin >> playerInput;
 
-    if (playerInput == 'y' || playerInput == 'Y') {
+    if (playerInput == "y" || playerInput == "Y") {
       string weaponInput;
 
       cout << "You can pick one of the following:" << endl;
@@ -31,18 +32,20 @@ class WeaponRoom {
       cout << "Axe" << endl;
       cin >> weaponInput;
 
+      // Updates inventory based on user input
+      // If they make a spelling mistake they die :3
       if (weaponInput == "Sword" || weaponInput == "sword") {
-        updateInventory(inventory, "Sword");
+          updateInventory(inventory, "Sword");
       } else if (weaponInput == "Axe" || weaponInput == "axe") {
-        updateInventory(inventory, "Axe"); 
+          updateInventory(inventory, "Axe"); 
       } else if (weaponInput == "Bow" || weaponInput == "bow") {
-        updateInventory(inventory, "Bow");
+          updateInventory(inventory, "Bow");
       } else {
-        cout << "You go to grab your weapon but you fumble with it." << endl;
-        cout << "You look down to realize that you have given yourself a massive gash across your chest." << endl;
-        cout << "As the life is fading from your eyes you have one final thought." << endl;
-        cout << "'Man I should've learned to spell.'" << endl;
-        cout << R"(
+          cout << "You go to grab your weapon but you fumble with it." << endl;
+          cout << "You look down to realize that you have given yourself a massive gash across your chest." << endl;
+          cout << "As the life is fading from your eyes you have one final thought." << endl;
+          cout << "'Man I should've learned to spell.'" << endl;
+          cout << R"(
 
 
 /==============================================\
@@ -60,27 +63,30 @@ class WeaponRoom {
 
 )";
 
-        exit(0);
+          exit(0);
       }
 
-    } else if (playerInput == 'n' || playerInput == 'N') {
+    } else if (playerInput == "n" || playerInput == "N") {
 
-      cout << "Deciding that your fists are weapons enough, you decide" << endl;
-      cout << " to move on without getting any weapons. You head back " << endl;
-      cout << "into the mouth of the cave, looking for another room to" << endl;
-      cout << " plunder." << endl;
+        cout << "Deciding that your fists are weapons enough, you" << endl;
+        cout << "move on without getting any weapons. You head back " << endl;
+        cout << "into the mouth of the cave, looking for another room to" << endl;
+        cout << "plunder." << endl;
     }
   }
 
-    int updateInventory(string* inventory, string item) {
+  // displays inventory, and replaces whatever is in the specified item slot
+  void updateInventory(string* inventory, string item) {
     int replaceInt;
-
-    cout << "Your inventory is currently: " << endl << *(inventory + 0 ) << endl << *(inventory + 1) << endl << *(inventory + 2) << endl;
-    cout << "Please select what you want to replace (1/2/3)";
+    system("clear");
+    cout << "Your inventory is currently: " << endl << "1 - " << *(inventory + 0 ) << endl << "2 - " << *(inventory + 1) << endl << "3 = " << *(inventory + 2) << endl;
+    cout << "\nPlease select what you want to replace (1/2/3)";
     cin >> replaceInt;
     *(inventory + replaceInt - 1) = item;
-    cout << "Your inventory is now: " << endl << *(inventory + 0 ) << endl << *(inventory + 1) << endl << *(inventory + 2) << endl;
-    return 0;
+    cout << "\nYour inventory is now: " << endl << "1 - " << *(inventory + 0 ) << endl << "2 - " << *(inventory + 1) << endl << "3 = " << *(inventory + 2) << endl;
+    cout << "\nPress enter to continue";
+    cin.ignore();
+    cin.get();
   }
 };
 
