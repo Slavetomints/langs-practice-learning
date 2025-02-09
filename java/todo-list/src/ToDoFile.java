@@ -75,7 +75,7 @@ public class ToDoFile {
         }
     }
 
-    public ArrayList<String> createToDoArrayList() {
+    public static ArrayList<String> createToDoArrayList() {
         ArrayList<String> toDoList = new ArrayList<String>();
 
         try {

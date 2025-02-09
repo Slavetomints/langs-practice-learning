@@ -12,6 +12,7 @@ public class toDoList {
     public static void main(String[] args) throws Exception {
         clearScreen();
         title();
+        toDoList = ToDoFile.createToDoArrayList();
         while (true) {
             int selection = menu();
             getMenuSelection(selection);
@@ -34,7 +35,6 @@ public class toDoList {
 
     public static int menu() {
         clearScreen();
-        toDoList = toDoFile.createToDoArrayList();
         int choice = 3;
 
         System.out.println("Please make a selection:");
