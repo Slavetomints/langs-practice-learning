@@ -35,6 +35,7 @@ public class LogFile {
         try {
             String time = getCurrentTime();
             logFileWriter.write(time + " - " + action + "\n");
+            logFileWriter.flush();
         } catch (Exception error) {
             System.out.println("An error occurred when writing to log file");
             logError(error);
@@ -45,6 +46,7 @@ public class LogFile {
         try {
             String time = getCurrentTime();
             logFileWriter.write(time + " - " + error + "\n");
+            logFileWriter.flush();
         } catch (Exception writeError ) {
             System.out.println("An error occurred when writing an error to the log file");
             writeError.printStackTrace();
