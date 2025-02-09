@@ -1,33 +1,21 @@
-
 import java.util.Scanner;
-import java.io.File;
-import java.time.*;
-import java.time.format.DateTimeFormatter;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
+
 
 public class toDoList {
 
-    // Initializing the file and the actual to do list to it can be referenced in multiple functions later. 
-    static String toDoListFilePath = "../tmp/to_do_list.txt"; 
-    static String logFilePath = "../tmp/log.txt";
-    static ArrayList<String> toDoList = new ArrayList<String>();
-    static File toDoListFile = new File(toDoListFilePath);
-    static File logFile = new File(logFilePath);
-    static FileWriter toDoFileWriter = null;
-    static FileWriter logFileWriter = null;
-    static Scanner keyboard = new Scanner(System.in);
-    static String currentTime;
-
+    private static ArrayList<String> toDoList = new ArrayList<String>();
+    private static Scanner keyboard = new Scanner(System.in);
+    private static LogFile log = new LogFile();
+    private static ToDoFile toDoFile = new ToDoFile();
 
     public static void main(String[] args) throws Exception {
         clearScreen();
         title();
-        initToDoListFiles();
-        initToDoList();
-        getMenuSelection(menu());
-        goodbye();
+        while (true) {
+            int selection = menu();
+            getMenuSelection(selection);
+        }
     }
 
     public static void title() {
@@ -44,61 +32,11 @@ public class toDoList {
         keyboard.nextLine();
     }
 
-    public static void initToDoListFiles() {
-        try {
-            logFileWriter = new FileWriter(logFilePath, true);
-
-            currentTime = getCurrentTime();
-            logFileWriter.write(currentTime + " - logFileWriter Initialized");
-
-            toDoFileWriter = new FileWriter(toDoListFilePath, true);
-
-            currentTime = getCurrentTime();
-            logFileWriter.write(currentTime + " - toDoFileWriter Initialized");
-        } catch (Exception error) {
-            System.out.println("An error occurred");
-            error.printStackTrace();
-        }
-    }
-
-    public static void initToDoList() {
-        try {
-            // Check if the directory exists; if not, create it
-            if (!toDoListFile.getParentFile().exists()) {
-                toDoListFile.getParentFile().mkdirs();
-            }
-    
-            // Check if the file exists; if not, create it
-            if (!toDoListFile.exists()) {
-                toDoListFile.createNewFile();
-                currentTime = getCurrentTime();
-                logFileWriter.write(currentTime + " - To-Do List file created at: " + toDoListFile.getAbsolutePath());
-            }
-    
-            // Read the file and populate the to-do list
-            Scanner reader = new Scanner(toDoListFile);
-            while (reader.hasNextLine()) {
-                String item = reader.nextLine();
-                toDoList.add(item);
-            }
-            reader.close();
-            
-            currentTime = getCurrentTime();
-            logFileWriter.write(currentTime + " - To-Do List initialized");
-        } catch (IOException error) {
-            System.out.println("An error occurred");
-            error.printStackTrace();
-        }
-    }
-    
-
     public static int menu() {
         clearScreen();
-        // Initialize the choice integer that will be used to return the menu selection. It is initialized to 3 so that 
-        // if for some reason it isn't changed all that happens is that the list is shown and no edits will be made to it
+        toDoList = toDoFile.createToDoArrayList();
         int choice = 3;
 
-        // Print the menu options onto the screen
         System.out.println("Please make a selection:");
         System.out.println("========================");
         System.out.println("1 - Add Item to List");
@@ -106,14 +44,14 @@ public class toDoList {
         System.out.println("3 - Show List");
         System.out.println("999 - Exit application\n");
 
-        // Gather the input and throw away the newline, and return the input in the integer choice
         System.out.print("> ");
         try {
             choice = keyboard.nextInt();
             keyboard.nextLine();
             return choice;        
-        } catch (Exception e) {
+        } catch (Exception error) {
             keyboard.nextLine();
+            log.logError(error);
             return menu();
         }
     }
@@ -123,21 +61,26 @@ public class toDoList {
             case 1:
                 clearScreen();
                 addItem();
-                getMenuSelection(menu());
+                break;
             case 2:
                 clearScreen();
                 removeItem();
-                getMenuSelection(menu());
+                break;
             case 3:
                 clearScreen();
                 showList();
-                getMenuSelection(menu());
+                break;
             case 999:
+                toDoFile.closeWriter();
                 clearScreen();
                 goodbye();
+                log.logAction("Program Exit with status code 0");
+                log.closeWriter();
                 System.exit(0);
+                break;
             default:
-                getMenuSelection(menu());
+                System.out.println("Invalid selection, please try again.");
+                break;
         }
     }
 
@@ -148,8 +91,8 @@ public class toDoList {
             } else {
                 new ProcessBuilder("clear").inheritIO().start().waitFor();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception error) {
+            log.logError(error);
         }
     }
 
@@ -159,32 +102,19 @@ public class toDoList {
         System.out.println("What do you want to add to the list?");
         item = keyboard.nextLine();
         toDoList.add(item);
-        currentTime = getCurrentTime();
-        /*logFileWriter.write(currentTime + " - toDoFileWriter Initialized");
-        /* 
-         * 
-         * 
-
-
-MAKE A LOG FUNCTION THAT IS PASSED A STRING TO LOG THAT STRING INTO THE FILE
-
-MAKE A LOG FUNCTION THAT IS PASSED THE ERROR TO LOG THE ERRORS INTO THE FILE
-
-
-
-
-
-
-         */
+        log.logAction(item + " added to to-do list");
+        toDoFile.addItem(item);
     }
 
     public static void removeItem() {
         if (toDoList.isEmpty()) {
+            log.logAction("Tried to remove item when list was empty");
             System.out.println("The list is empty. Nothing to remove.\n");
             System.out.println("Press enter to continue");
             keyboard.nextLine();
-            getMenuSelection(menu());
+            return;
         }
+
         int removeIndex;
 
         showList();
@@ -192,18 +122,27 @@ MAKE A LOG FUNCTION THAT IS PASSED THE ERROR TO LOG THE ERRORS INTO THE FILE
 
         removeIndex = keyboard.nextInt();
         removeIndex = removeIndex - 1;
-        if (removeIndex > toDoList.size() || removeIndex < 0) {
+        if (removeIndex >= toDoList.size() || removeIndex < 0) {
+            log.logAction("Attempted to remove invalid item.");
             System.out.println("Please select a valid number");
             removeItem();
+            return;
         }
-        
+
+        String removedItem = toDoList.get(removeIndex);
         toDoList.remove(removeIndex);
+        toDoFile.removeItem(removeIndex);
+        log.logAction(removedItem + " removed from to-do list");
     }
 
     public static void showList() {
-        for (int i = 0; i < toDoList.size(); i++) {
-            System.out.println((i + 1) + " - " + toDoList.get(i));
-          }
+        if (toDoList.isEmpty()) {
+            System.out.println("The list is empty.");
+        } else {
+            for (int i = 0; i < toDoList.size(); i++) {
+                System.out.println((i + 1) + " - " + toDoList.get(i));
+            }
+        }
         System.out.println("\nPress enter to continue");
         keyboard.nextLine();
     }
@@ -219,11 +158,5 @@ MAKE A LOG FUNCTION THAT IS PASSED THE ERROR TO LOG THE ERRORS INTO THE FILE
                         "  |_| |_| |_|\\__,_|\\__| |___/ /_/   \\_\\_|_| |_|  \\___/|_|_|\\_\\___(_)\r\n" + //
                         "\r\n" + //
                         "");
-    }
-
-    private static String getCurrentTime() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        LocalDateTime now = LocalDateTime.now();
-        return now.format(formatter);
     }
 }

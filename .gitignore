@@ -7,7 +7,7 @@
 *.yml
 
 # Java binaries and tmp
-java/todo-list/tmp/*
+*class
 
 # C++ Binaries
 *.out
