@@ -16,21 +16,24 @@ int main() {
 
   color1 = downcase(color1);
   color2 = downcase(color2);
-  if (color1 != "red" ) {
 
-  } else if ((color1 == "red" || color2 == "red") && (color2 == "blue" || color1 == "blue")) {
-
+  if ((color1 == "red" || color2 == "red") && (color2 == "blue" || color1 == "blue")) {
+    cout << "\nYou will make purple";
   } else if ((color1 == "red" || color2 == "red") && (color2 == "yellow" || color1 == "yellow")) {
-
+    cout << "\nYou will make orange";
   } else if ((color1 == "yellow" || color2 == "yellow") && (color2 == "blue" || color1 == "blue")) {
-
+    cout << "\nYou will make green";
+  } else if (color1 == color2) {
+    cout << "\nThe color would be " << color1;
+  } else {
+    cout << "\nYou need to enter a valid color";
   }
   return 0;
 }
 
 string downcase(string string) {
   for (char& c : string) {
-    if ( c >= 'A' || c <= 'Z') {
+    if ( c >= 'A' && c <= 'Z') {
       c += 32;
     }
   }

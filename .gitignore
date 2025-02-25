@@ -12,21 +12,6 @@
 # C++ Binaries
 *.out
 
-## Challenges
-c++/challenges/annual-pay/annual-pay
-c++/challenges/atm/atm
-c++/challenges/bad-vw/bad-vw
-c++/challenges/check-printer/check-printer
-c++/challenges/currency/currency
-c++/challenges/ingredient-adjuster/ingredient-adjuster
-c++/challenges/miles-per-gallon/ask-miles-per-gallon
-c++/challenges/miles-per-gallon/miles-per-gallon
-c++/challenges/monthly-payments/monthly-payments
-c++/challenges/restaurant-bill/restaurant-bill
-c++/challenges/stadium-seating/stadium-seating
-c++/challenges/sum/sum
-c++/challenges/total-purchase/total-purchase
-
 ## Projects
 c++/projects/cyoa/cyoa
 ### need to submit this project in a place where you cant use header files
