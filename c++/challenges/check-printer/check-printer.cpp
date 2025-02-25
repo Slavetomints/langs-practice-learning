@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include <string>
 
 using namespace std;
@@ -28,11 +29,11 @@ int makeCheck(string employeeName, int grossPay) {
   string check;
   cout << endl;
   cout << endl;
-  cout << ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" << endl;
-  cout << ">                         | $" << grossPay << " |  >" << endl;
-  cout << ">                                         >" << endl;
-  cout << "> ___Pay to the Order of__  " << employeeName << " >" << endl;
-  cout << ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" << endl;
+  cout << ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" << endl;
+  cout << ">" << setw(53 - to_string(grossPay).length()) << "                         | $" << grossPay << " |  >" << endl;
+  cout << ">" << setw(58) << "                                         >" << endl;
+  cout << ">" << " ___Pay to the Order of__  " << employeeName << setw(31 - employeeName.length()) << " >" << endl;
+  cout << ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" << endl;
   return 0;
 }
 
