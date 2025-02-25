@@ -11,7 +11,7 @@ int main() {
   cout << "How tall are you in inches?" << endl;
   cin >> height;
 
-  cout << "What is yur weight  in pounds?" << endl;
+  cout << "What is your weight in pounds?" << endl;
   cin >> weight;
 
   bodyMassIndex = weight * (703 / pow(height, 2));
