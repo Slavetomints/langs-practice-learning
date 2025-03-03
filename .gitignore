@@ -18,7 +18,13 @@ c++/projects/cyoa/cyoa
 ### so I need to store my functions for copy pasting
 c++/projects/cyoa/reused-functions
 
+# HLA
+*.o
 
+## Projects
+assembly/hla/demo_mov_add_sub
+assembly/hla/demo_vars
+assembly/hla/hello_world
 
 # Personal shell scripts
 bash/personal/*
