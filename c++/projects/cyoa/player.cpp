@@ -6,6 +6,7 @@
 #include "weapon-room.cpp"
 #include "kitchen.cpp"
 #include "living-quarters.cpp"
+#include "feast-hall.cpp"
 
 using namespace std;
 
@@ -42,19 +43,6 @@ class Player {
       case 2: {
         playerPositionString = "Weapon Room";
         WeaponRoom weaponRoom(inventoryPointer);
-                /* 
-          
-          
-          
-          
-          
-          We left off here
-          
-
-          
-          
-          
-          */
         break;
       }
       case 4: {
@@ -74,6 +62,11 @@ class Player {
         playerPositionInt = 5;
         LivingQuarters livingQuarters(inventoryPointer);
         break;
+      }
+      case 7: {
+        playerPositionString = "Feast Hall";
+        playerPositionInt = 6;
+        FeastHall feastHall(inventoryPointer);
       }
   /*  case 8: {
         playerPositionString = "Secret Room";

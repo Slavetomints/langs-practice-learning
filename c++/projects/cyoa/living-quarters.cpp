@@ -1,5 +1,6 @@
 #include <iostream>
 #include <random>
+#include <fstream>
 
 using namespace std;
 
@@ -28,6 +29,7 @@ class LivingQuarters {
     cout << "1 - Holy Hand Grenade" << endl;
     cout << "2 - Biscuit" << endl;
     cout << "3 - A letter (read the letter)" << endl;
+    cout << "4 - Long Tome" << endl;
     cin >> playerInput;
     if (playerInput == 1) {
       updateInventory(inventory, "Holy Hand Grenade");
@@ -54,6 +56,14 @@ Gartholomew
         cout << "\n\nPress enter to continue" << endl;
         cin.ignore();
         cin.get();
+    } else if (playerInput = 4) {
+        char ch;
+        ifstream file("bee-movie.txt");
+
+        while (file.get(ch)) {
+          cout << ch << flush;
+          system("sleep 0.1");
+        }
     } else {
       cout << "Stuck in your indesicon, you are immediately cut open and you fall to the ground" << endl;
       cout << R"(
