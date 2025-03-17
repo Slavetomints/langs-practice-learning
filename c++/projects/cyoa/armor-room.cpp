@@ -38,9 +38,9 @@ class ArmorRoom {
       // Heavy Mail is an insta-death
       if (weaponInput == 1) {
         system("clear");
-        cout << "After struggling to get the armor on, you finally slip the last part over you and go to take a step" << endl;
-        cout << "you realize that you cant actually move, it's too heavy." << endl;
-        cout << "You spend the rest of your days (not many) calling for help from your self made prison" << endl;
+        cout << "\e[0;31m After struggling to get the armor on, you finally slip the last part over you and go to take a step" << endl;
+        cout << "\e[0;31m you realize that you cant actually move, it's too heavy." << endl;
+        cout << "\e[0;31m You spend the rest of your days (not many) calling for help from your self made prison" << endl;
         cout << R"(
 
 
@@ -69,11 +69,11 @@ class ArmorRoom {
         // They die if they make a choice that doesn't work
       } else {
         system("clear");
-        cout << "While you are fumbling around deciding what armor you want to wear" << endl;
-        cout << "You don't realize the guard step out of the shadows to plunge his sword through your heart" << endl;
-        cout << "Blood spills onto the cobble floor as you fall to your knees." << endl;
-        cout << "As the life is fading from your eyes you have one final thought." << endl;
-        cout << "'Man I should've learned to spell.'" << endl;
+        cout << "\e[0;31m While you are fumbling around deciding what armor you want to wear" << endl;
+        cout << "\e[0;31m You don't realize the guard step out of the shadows to plunge his sword through your heart" << endl;
+        cout << "\e[0;31m Blood spills onto the cobble floor as you fall to your knees." << endl;
+        cout << "\e[0;31m As the life is fading from your eyes you have one final thought." << endl;
+        cout << "\e[0;31m 'Man I should've learned to spell.'" << endl;
         cout << R"(
 
 
@@ -155,8 +155,8 @@ class ArmorRoom {
 
       // If they dont have a weapon they die
       } else {
-          cout << "With nothing to stop the blade, it is only a matter of time until you are struck and weakened" << endl;
-          cout << "A blow to your legs, a slash across your chest, you eventually fall." << endl;
+          cout << "\e[0;31m With nothing to stop the blade, it is only a matter of time until you are struck and weakened" << endl;
+          cout << "\e[0;31m A blow to your legs, a slash across your chest, you eventually fall." << endl;
           cout << R"(
 
 
@@ -179,7 +179,7 @@ class ArmorRoom {
       }
       // If they dodge they die
     } else if (playerChoice == "Dodge" || playerChoice == "dodge") {
-      cout << "You dodge the first attack, but are struck by the second, seems like you needed to do something other than nothing." << endl;
+      cout << "\e[0;31m You dodge the first attack, but are struck by the second, seems like you needed to do something other than nothing." << endl;
       cout << R"(
 
 
@@ -203,7 +203,7 @@ class ArmorRoom {
     } else if (playerChoice == "Run" || playerChoice == "run") {
       cout << "You successfully escape... this time" << endl;
     } else {
-      cout << "Stuck in your indesicon, you are immediately cut open and you fall to the ground" << endl;
+      cout << "\e[0;31m Stuck in your indesicon, you are immediately cut open and you fall to the ground" << endl;
       cout << R"(
 
 

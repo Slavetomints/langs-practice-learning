@@ -7,6 +7,7 @@
 #include "kitchen.cpp"
 #include "living-quarters.cpp"
 #include "feast-hall.cpp"
+#include "final-boss.cpp"
 
 using namespace std;
 
@@ -66,33 +67,14 @@ class Player {
       case 7: {
         playerPositionString = "Feast Hall";
         playerPositionInt = 6;
-        FeastHall feastHall(inventoryPointer);
+        FeastHall feastHall;
       }
-  /*  case 8: {
-        playerPositionString = "Secret Room";
-        playerPositionInt = 6;
-        SecretRoom secretRoom;
-        break;
-      }
-      case 10: {
-        playerPositionString = "Evil Lair";
+      case 8: {
+        playerPositionString = "Final Boss";
         playerPositionInt = 7;
-        EvilLair evilLair;
+        FinalBoss finalBoss(inventoryPointer);
         break;
       }
-      case 11: {
-        playerPositionString = "Fight Arena";
-        playerPositionInt = 8;
-        FightArena fightArena;
-        break;
-      }
-      case 12: {
-      playerPositionString = "Treasure Room!";
-      playerPositionInt = 9;
-      TreasureRoom treasureRoom;
-      break;
-      }
-  */
       case 88: {
         if (playerPositionInt == 9) {
           playerPositionInt = 7;

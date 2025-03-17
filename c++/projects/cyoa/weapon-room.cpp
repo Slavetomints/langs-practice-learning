@@ -41,10 +41,10 @@ class WeaponRoom {
       } else if (weaponInput == "Bow" || weaponInput == "bow") {
           updateInventory(inventory, "Bow");
       } else {
-          cout << "You go to grab your weapon but you fumble with it." << endl;
-          cout << "You look down to realize that you have given yourself a massive gash across your chest." << endl;
-          cout << "As the life is fading from your eyes you have one final thought." << endl;
-          cout << "'Man I should've learned to spell.'" << endl;
+          cout << "\e[0;31m You go to grab your weapon but you fumble with it." << endl;
+          cout << "\e[0;31m You look down to realize that you have given yourself a massive gash across your chest." << endl;
+          cout << "\e[0;31m As the life is fading from your eyes you have one final thought." << endl;
+          cout << "\e[0;31m 'Man I should've learned to spell.'" << endl;
           cout << R"(
 
 
@@ -79,11 +79,11 @@ class WeaponRoom {
   void updateInventory(string* inventory, string item) {
     int replaceInt;
     system("clear");
-    cout << "Your inventory is currently: " << endl << "1 - " << *(inventory + 0 ) << endl << "2 - " << *(inventory + 1) << endl << "3 = " << *(inventory + 2) << endl;
+    cout << "Your inventory is currently: " << endl << "1 - " << *(inventory + 0 ) << endl << "2 - " << *(inventory + 1) << endl << "3 - " << *(inventory + 2) << endl;
     cout << "\nPlease select what you want to replace (1/2/3)";
     cin >> replaceInt;
     *(inventory + replaceInt - 1) = item;
-    cout << "\nYour inventory is now: " << endl << "1 - " << *(inventory + 0 ) << endl << "2 - " << *(inventory + 1) << endl << "3 = " << *(inventory + 2) << endl;
+    cout << "\nYour inventory is now: " << endl << "1 - " << *(inventory + 0 ) << endl << "2 - " << *(inventory + 1) << endl << "3 - " << *(inventory + 2) << endl;
     cout << "\nPress enter to continue";
     cin.ignore();
     cin.get();

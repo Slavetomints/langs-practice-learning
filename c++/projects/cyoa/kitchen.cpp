@@ -12,8 +12,8 @@ class Kitchen {
     cin >> playerInput;
 
     if (playerInput == 'y' || playerInput == 'Y') {
-      cout << "You eat the whole meal!" << endl;
-      cout << "However, it was poisoned" << endl;
+      cout << "\e[0;31m You eat the whole meal!" << endl;
+      cout << "\e[0;31m However, it was poisoned" << endl;
       cout << R"(
 
 

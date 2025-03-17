@@ -88,7 +88,7 @@ XXXXXXXXXX    XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX    X
          X                                                                     X     
          X                                                                     X     
          X                           Feast Hall                                X     
-         X                               (8)                                   X     
+         X                               (7)                                   X     
          X                                                                     X     
          X                                                                     X     
          XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX     
@@ -96,7 +96,24 @@ XXXXXXXXXX    XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX    X
         break;
       }
       case 9: {
-
+        cout << R"(
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+X                                                                                    
+X                                                                        Go Back     
+X                                                                         (88)       
+X                                                                                    
+X                                                                                    
+X                       Final Boss                          XXXXXXXXXXXXXXXXXXXXXXXXX
+X                          (8)                              X                        
+X                                                           X                        
+X                                                           X                        
+X                                                           X                        
+X                                                           X                        
+X                                                           X                        
+X                                                           X                        
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX                        
+        )";
+        break;
       }
       default: {
       

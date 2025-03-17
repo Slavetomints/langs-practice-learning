@@ -65,7 +65,7 @@ Gartholomew
           system("sleep 0.1");
         }
     } else {
-      cout << "Stuck in your indesicon, you are immediately cut open and you fall to the ground" << endl;
+      cout << "\e[0;31m Stuck in your indesicon, you are immediately cut open and you fall to the ground" << endl;
       cout << R"(
 
 
@@ -109,14 +109,14 @@ Gartholomew
       int playerInput;
 
       // Display the current inventory so the player can decide what to use to attack
-      cout << "Your inventory is currently: " << endl << "1 - " << *(inventory + 0 ) << endl << "2 - " << *(inventory + 1) << endl << "3 = " << *(inventory + 2) << endl;
+      cout << "Your inventory is currently: " << endl << "1 - " << *(inventory + 0 ) << endl << "2 - " << *(inventory + 1) << endl << "3 - " << *(inventory + 2) << endl;
       cout << "Please select what you wish to use to attack with (1/2/3)" << endl;
       cin >> playerInput;
 
       // If the user selected a sword, they die
       if (*(inventory + (playerInput - 1)) == "Sword") {
-        cout << "You swing your sword in a desperate attempt to block your attackers thrust. The blade collide and" << endl;
-        cout << "and sparks fly everywhere. Your blade goes flying but before you notice you feel a sharp pain." << endl;
+        cout << "\e[0;31m You swing your sword in a desperate attempt to block your attackers thrust. The blade collide and" << endl;
+        cout << "\e[0;31m and sparks fly everywhere. Your blade goes flying but before you notice you feel a sharp pain." << endl;
         cout << R"(
 
 
@@ -150,8 +150,8 @@ Gartholomew
 
       // If they dont have a weapon they die
       } else {
-          cout << "With nothing to stop the blade, it is only a matter of time until you are struck and weakened" << endl;
-          cout << "A blow to your legs, a slash across your chest, you eventually fall." << endl;
+          cout << "\e[0;31m With nothing to stop the blade, it is only a matter of time until you are struck and weakened" << endl;
+          cout << "\e[0;31m A blow to your legs, a slash across your chest, you eventually fall." << endl;
           cout << R"(
 
 
@@ -186,11 +186,11 @@ Gartholomew
   void updateInventory(string* inventory, string item) {
     int replaceInt;
     system("clear");
-    cout << "Your inventory is currently: "  << endl << "1 - " << *(inventory + 0 ) << endl << "2 - " << *(inventory + 1) << endl << "3 = " << *(inventory + 2) << endl;
+    cout << "Your inventory is currently: "  << endl << "1 - " << *(inventory + 0 ) << endl << "2 - " << *(inventory + 1) << endl << "3 - " << *(inventory + 2) << endl;
     cout << "\nPlease select what you want to replace (1/2/3)";
     cin >> replaceInt;
     *(inventory + replaceInt - 1) = item;
-    cout << "\nYour inventory is now: " << endl << "1 - " << *(inventory + 0 ) << endl << "2 - " << *(inventory + 1) << endl << "3 = " << *(inventory + 2) << endl;
+    cout << "\nYour inventory is now: " << endl << "1 - " << *(inventory + 0 ) << endl << "2 - " << *(inventory + 1) << endl << "3 - " << *(inventory + 2) << endl;
     cout << "\nPress enter to continue";
     cin.ignore();
     cin.get();
