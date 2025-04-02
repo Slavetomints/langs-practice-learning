@@ -22,7 +22,6 @@ c++/projects/cyoa/reused-functions
 *.o
 
 # Rust
-*.
 target/
 
 ## Projects
