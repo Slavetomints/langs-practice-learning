@@ -21,6 +21,10 @@ c++/projects/cyoa/reused-functions
 # HLA
 *.o
 
+# Rust
+*.
+target/
+
 ## Projects
 assembly/hla/demo_mov_add_sub
 assembly/hla/demo_vars
