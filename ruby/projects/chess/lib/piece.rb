@@ -7,11 +7,11 @@ module Chess
     include Locatable
     def initialize(color, starting_square)
       @color = color
-      @location = starting_square
+      @location = starting_square.split('')
       @icon = "■".colorize(find_color(@location))
     end
 
-    def puts
+    def puts()
       if @location[1] == '8'
         puts @icon
       else
