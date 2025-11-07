@@ -97,9 +97,14 @@ function check_shells() {
       echo "[!] $file has a risk score of above three, would you like to delete it? (y/n)"
       echo -n "> "
       read input < /dev/tty
-      if [[ "$input" == "Y" || "$input" == "y" ]]; then      
-        rm "$file"
-        echo "[+] Removed file $file" | tee -a "$REPORT_FILE"
+      if [[ "$input" == "Y" || "$input" == "y" ]]; then 
+        if [[ $EUID -eq 0 ]]; then
+          rm "$file"
+          echo "[+] Removed file $file" | tee -a "$REPORT_FILE"          
+        else
+          sudo rm "$file"
+          echo "[+] Removed file $file" | tee -a "$REPORT_FILE"
+        fi     
       fi   
     fi
   done
