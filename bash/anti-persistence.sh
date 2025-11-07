@@ -56,9 +56,14 @@ check_services() {
       BAD_SERVICES+=("$service")
       systemctl stop "$service"
       systemctl disable "$service"
-      if [[ -f "/etc/systemd/system/$service.service" ]]; then
-        rm "/etc/systemd/system/$service.service"
-        echo "[+] Removed file: /etc/systemd/system/$service.service"
+      if [[ -f "/etc/systemd/system/$service" ]]; then
+        if [[ $EUID -eq 0 ]]; then
+          rm "/etc/systemd/system/$service"
+          echo "[+] Removed file: /etc/systemd/system/$service" | tee -a "$REPORT_FILE"          
+        else
+          sudo rm "/etc/systemd/system/$service"
+          echo "[+] Removed file: /etc/systemd/system/$service" | tee -a "$REPORT_FILE"
+        fi 
       else
         echo "[!] Couldn't find the service file, you'll have to  find and delete it."
       fi
@@ -94,16 +99,19 @@ function check_shells() {
       printf ' - %s\n' "${found_snippets[@]}" | tee -a "$REPORT_FILE"
     fi
     if (( score > 3 )); then
+      echo -e "\nFILE CONTENTS:" >> "$REPORT_FILE"
+      echo "-----------------------------------------------------------" >> "$REPORT_FILE"
+      cat $file >> "$REPORT_FILE"
       echo "[!] $file has a risk score of above three, would you like to delete it? (y/n)"
       echo -n "> "
       read input < /dev/tty
       if [[ "$input" == "Y" || "$input" == "y" ]]; then 
         if [[ $EUID -eq 0 ]]; then
           rm "$file"
-          echo "[+] Removed file $file" | tee -a "$REPORT_FILE"          
+          echo -e "[+] Removed file $file \n\n" | tee -a "$REPORT_FILE"          
         else
           sudo rm "$file"
-          echo "[+] Removed file $file" | tee -a "$REPORT_FILE"
+          echo -e "[+] Removed file $file \n\n" | tee -a "$REPORT_FILE"
         fi     
       fi   
     fi
@@ -132,7 +140,7 @@ EOF
 function menu() {
   echo "  1 - Check for Cron Jobs"
   echo "  2 - Check for Services"
-  echo "  3 - Check for Shells"
+  echo "  3 - Check for PHP Shells"
   echo "  4 - Check All"
   echo "  99 - Exit"
 }
