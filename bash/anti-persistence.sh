@@ -1,6 +1,5 @@
 REPORT_FILE="$(pwd)/report.md"
 
-
 check_cron() {
   echo "[+] Checking cron..."
   mapfile -t cron_array < <(crontab -l 2>/dev/null)
@@ -52,11 +51,15 @@ check_services() {
 
     if [[ "$invalid_service" == "Y" || "$invalid_service" == "y" ]]; then
       service="${services[i]}"
+      echo "[!] $service has been deemed malicious" | tee -a "$REPORT_FILE"
       echo "[+] Stopping and disabling $service..."
       BAD_SERVICES+=("$service")
       systemctl stop "$service"
       systemctl disable "$service"
       if [[ -f "/etc/systemd/system/$service" ]]; then
+        echo -e "\nSystem file: " >> "$REPORT_FILE"
+        cat "/etc/systemd/system/$service" >> "$REPORT_FILE"
+        echo "" >> "$REPORT_FILE"
         if [[ $EUID -eq 0 ]]; then
           rm "/etc/systemd/system/$service"
           echo "[+] Removed file: /etc/systemd/system/$service" | tee -a "$REPORT_FILE"          
