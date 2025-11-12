@@ -1,0 +1,212 @@
+@startuml
+
+class University {
+  - name: String
+  - departments: List<Department>
+  + addDepartment(dept: Department): void
+  + findDepartment(name: String): Department
+}
+
+class Department {
+  - name: String
+  - courses: List<Course>
+  - professors: List<Professor>
+  - students: List<Student>
+  + addCourse(course: Course): void
+  + assignProfessor(professor: Professor, course: Course): void
+}
+
+class Course {
+  - code: String
+  - title: String
+  - credits: int
+  - instructor: Professor
+  - students: List<Student>
+  - assignments: List<Assignment>
+  - exams: List<Exam>
+  + enroll(student: Student): void
+  + assignInstructor(professor: Professor): void
+}
+
+class Person {
+  # name: String
+  # id: String
+  # email: String
+  + getName(): String
+}
+
+class Student extends Person {
+  - major: String
+  - enrolledCourses: List<Course>
+  - transcript: Transcript
+  - billingAccount: BillingAccount
+  - scholarships: List<Scholarship>
+  + enroll(course: Course): void
+}
+
+class Professor extends Person {
+  - title: String
+  - department: Department
+  + teach(course: Course): void
+}
+
+class Transcript {
+  - grades: Map<Course, Grade>
+  + addGrade(course: Course, grade: Grade): void
+  + getGPA(): double
+}
+
+class Grade {
+  - course: Course
+  - score: double
+  - letter: String
+}
+
+class Schedule {
+  - entries: List<ScheduleEntry>
+  + addEntry(entry: ScheduleEntry): void
+}
+
+class ScheduleEntry {
+  - course: Course
+  - timeSlot: String
+  - room: String
+}
+
+class BillingAccount {
+  - student: Student
+  - balance: double
+  - invoices: List<Invoice>
+  + charge(amount: double): void
+  + pay(amount: double): void
+}
+
+class Payment {
+  - account: BillingAccount
+  - amount: double
+  - date: LocalDate
+}
+
+class CommunicationSystem {
+  + sendEmail(sender: Person, recipient: Person, subject: String, message: String): void
+}
+
+class Notification {
+  - recipient: Person
+  - message: String
+  - date: LocalDate
+}
+
+class Registrar {
+  + registerStudent(student: Student, course: Course): void
+  + dropStudent(student: Student, course: Course): void
+}
+
+class CampusSystem {
+  - university: University
+  - registrar: Registrar
+  - comms: CommunicationSystem
+  + main(args: String[]): void
+}
+
+class Assignment {
+  - title: String
+  - dueDate: LocalDate
+  - maxPoints: double
+  + gradeSubmission(student: Student, score: double): void
+}
+
+class Exam {
+  - type: String
+  - date: LocalDate
+  + recordScore(student: Student, score: double): void
+}
+
+class AttendanceRecord {
+  - student: Student
+  - course: Course
+  - date: LocalDate
+  - present: boolean
+}
+
+class MessageThread {
+  - participants: List<Person>
+  - messages: List<Notification>
+  + addMessage(message: Notification): void
+}
+
+class Announcement {
+  - sender: Professor
+  - content: String
+  - postedDate: LocalDate
+}
+
+class Invoice {
+  - id: String
+  - amount: double
+  - dueDate: LocalDate
+  + markPaid(): void
+}
+
+class Scholarship {
+  - name: String
+  - amount: double
+  - criteria: String
+}
+
+class UserAccount {
+  - username: String
+  - passwordHash: String
+  - role: Role
+}
+
+class Role {
+  <<enumeration>>
+  STUDENT
+  PROFESSOR
+  ADMIN
+}
+
+class AuditLog {
+  - action: String
+  - actor: Person
+  - timestamp: LocalDateTime
+}
+
+' ===============================
+' Relationships
+' ===============================
+
+University "1" --> "*" Department
+Department "1" --> "*" Course
+Department "1" --> "*" Professor
+Department "1" --> "*" Student
+Course "*" --> "*" Student
+Course "1" --> "1" Professor
+Person <|-- Student
+Person <|-- Professor
+Student "1" --> "1" Transcript
+Transcript "*" --> "*" Grade
+Schedule "1" --> "*" ScheduleEntry
+BillingAccount "1" --> "*" Payment
+Student "1" --> "1" BillingAccount
+BillingAccount "1" --> "*" Invoice
+BillingAccount "1" --> "*" Scholarship
+CommunicationSystem --> Person
+Notification --> Person
+Registrar --> Student
+Registrar --> Course
+CampusSystem --> University
+CampusSystem --> Registrar
+CampusSystem --> CommunicationSystem
+Course "1" --> "*" Assignment
+Course "1" --> "*" Exam
+Course "1" --> "*" AttendanceRecord
+MessageThread "*" --> "*" Person
+MessageThread "*" --> "*" Notification
+Announcement --> Professor
+AuditLog --> Person
+UserAccount --> Person
+UserAccount --> Role
+
+@enduml
