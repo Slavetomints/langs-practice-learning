@@ -8,57 +8,79 @@ fi
 echo "[*] Checking package manager"
 
 if command -v apt >/dev/null 2>&1; then
-    echo "[+] Debian-based system detected"
+  echo "[+] Debian-based system detected"
 
-    echo "[*] Purging insecure services"
-    apt purge -y \
-      xinetd telnetd telnet rsh-client nis tftpd-hpa tftp \
-      vsftpd dovecot-core squid snmpd postfix bind9 \
-      anacron || true
+  echo "[*] Purging insecure services"
+  apt purge -y \
+    xinetd telnetd telnet rsh-client nis tftpd-hpa tftp \
+    vsftpd dovecot-core squid snmpd postfix bind9 \
+    anacron || true
 
-    systemctl disable --now xinetd || true
-    systemctl disable --now telnet.socket || true
-    systemctl disable --now rsh.socket rlogin.socket || true
-    systemctl disable --now tftp.socket tftpd || true
-    systemctl disable --now vsftpd dovecot squid snmpd postfix || true
-    systemctl disable --now named || true
-    echo "[✓] Insecure services removed"
+  systemctl disable --now xinetd || true
+  systemctl disable --now telnet.socket || true
+  systemctl disable --now rsh.socket rlogin.socket || true
+  systemctl disable --now tftp.socket || true
+  systemctl disable --now vsftpd dovecot squid snmpd postfix || true
+  echo "[✓] Insecure services removed"
 
-    # ClamAV
-    if ! command -v clamscan >/dev/null 2>&1; then
-        apt install -y clamav
-    fi
-    echo "[✓] ClamAV installed, updating signatures now"
-    freshclam
+  # ClamAV
+  if ! command -v clamscan >/dev/null 2>&1; then
+      apt install -y clamav
+  fi
+  echo "[✓] ClamAV installed, updating signatures now"
+  freshclam
 
 elif command -v dnf >/dev/null 2>&1 || command -v yum >/dev/null 2>&1; then
-    PM=$(command -v dnf >/dev/null && echo dnf || echo yum)
-    echo "[+] RHEL-based system detected ($PM)"
+  if command -v dnf >/dev/null 2>&1; then
+    PM=dnf
+  else
+    PM=yum
+  fi
 
-    echo "[*] Purging insecure services"
-    $PM remove -y \
-      xinetd telnet-server telnet rsh-server ypbind ypserv \
-      tftp-server vsftpd dovecot squid net-snmp net-snmp-libs \
-      postfix bind bind-utils cronie || true
+  echo "[+] RHEL-based system detected ($PM)"
 
-    systemctl disable --now xinetd || true
-    systemctl disable --now telnet.socket || true
-    systemctl disable --now rsh.socket rlogin.socket || true
-    systemctl disable --now tftp.socket tftpd || true
-    systemctl disable --now vsftpd dovecot squid snmpd postfix || true
-    systemctl disable --now named || true
-    systemctl disable --now sshd || true
-    echo "[✓] Insecure services removed"
+  echo "[*] Purging insecure services"
+  $PM remove -y \
+    xinetd telnet-server telnet rsh-server ypbind ypserv \
+    tftp-server vsftpd dovecot squid net-snmp net-snmp-utils net-snmp-libs \
+    postfix bind bind-utils cronie || true
+
+  systemctl disable --now xinetd || true
+  systemctl disable --now telnet.socket || true
+  systemctl disable --now rsh.socket rlogin.socket || true
+  systemctl disable --now tftp.socket || true
+  systemctl disable --now vsftpd dovecot squid snmpd postfix || true
+  systemctl disable --now sshd || true
+  echo "[✓] Insecure services removed"
     
-    if ! command -v clamscan >/dev/null 2>&1; then
-        $PM install -y clamav
-    fi
-    echo "[✓] ClamAV installed, updating signatures now"
-    freshclam
+  if ! command -v clamscan >/dev/null 2>&1; then
+    $PM install -y clamav
+  fi
+  echo "[✓] ClamAV installed, updating signatures now"
+  freshclam
 
 else
-    echo "[!] No supported package manager found"
+  echo "[!] No supported package manager found"
 fi
+
+URL="https://raw.githubusercontent.com/Slavetomints/langs-practice-learning/refs/heads/main/bash/anti-persistence.sh"
+DEST="anti-persistence.sh"
+
+echo "[*] Downloading $URL"
+
+if command -v curl >/dev/null 2>&1; then
+  curl -fsSL "$URL" -o "$DEST"
+elif command -v wget >/dev/null 2>&1; then
+  wget -q "$URL" -O "$DEST"
+else
+  echo "[!] ERROR: Neither curl nor wget found!"
+  exit 1
+fi
+
+chmod +x "$DEST"
+echo "[*] Running downloaded script..."
+"$DEST"
+
 
 # Running iptables last so the rest of the script has no errors
 echo "[*] Setting iptables configurations"
