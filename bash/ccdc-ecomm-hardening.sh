@@ -5,48 +5,6 @@ if [[ $EUID -ne 0 ]]; then
   exit 1
 fi
 
-echo "[*] Setting iptables configurations"
-
-# Flush rules
-iptables -F
-iptables -X
-
-# Default drop
-iptables -P INPUT DROP
-iptables -P FORWARD DROP
-iptables -P OUTPUT DROP
-
-# Established
-iptables -A INPUT  -m state --state ESTABLISHED,RELATED -j ACCEPT
-iptables -A OUTPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
-
-# Loopback
-iptables -A INPUT  -i lo -j ACCEPT
-iptables -A OUTPUT -o lo -j ACCEPT
-
-# ICMP
-iptables -A INPUT  -p icmp -j ACCEPT
-iptables -A OUTPUT -p icmp -j ACCEPT
-
-# DNS
-iptables -A OUTPUT -p udp --dport 53 -j ACCEPT
-iptables -A OUTPUT -p tcp --dport 53 -j ACCEPT
-iptables -A INPUT  -p udp --sport 53 -j ACCEPT
-iptables -A INPUT  -p tcp --sport 53 -j ACCEPT
-
-# HTTP/S
-iptables -A OUTPUT -p tcp --dport 80  -j ACCEPT
-iptables -A OUTPUT -p tcp --dport 443 -j ACCEPT
-
-# NTP
-iptables -A OUTPUT -p udp --dport 123 -j ACCEPT
-
-# Splunk
-iptables -A OUTPUT -p tcp --dport 8000 -j ACCEPT
-iptables -A OUTPUT -p tcp --dport 8089 -j ACCEPT
-iptables -A OUTPUT -p tcp --dport 9997 -j ACCEPT
-echo "[✓] iptables configured"
-
 echo "[*] Checking package manager"
 
 if command -v apt >/dev/null 2>&1; then
@@ -102,4 +60,46 @@ else
     echo "[!] No supported package manager found"
 fi
 
+# Running iptables last so the rest of the script has no errors
+echo "[*] Setting iptables configurations"
+
+# Flush rules
+iptables -F
+iptables -X
+
+# Default drop
+iptables -P INPUT DROP
+iptables -P FORWARD DROP
+iptables -P OUTPUT DROP
+
+# Established
+iptables -A INPUT  -m state --state ESTABLISHED,RELATED -j ACCEPT
+iptables -A OUTPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+# Loopback
+iptables -A INPUT  -i lo -j ACCEPT
+iptables -A OUTPUT -o lo -j ACCEPT
+
+# ICMP
+iptables -A INPUT  -p icmp -j ACCEPT
+iptables -A OUTPUT -p icmp -j ACCEPT
+
+# DNS
+iptables -A OUTPUT -p udp --dport 53 -j ACCEPT
+iptables -A OUTPUT -p tcp --dport 53 -j ACCEPT
+iptables -A INPUT  -p udp --sport 53 -j ACCEPT
+iptables -A INPUT  -p tcp --sport 53 -j ACCEPT
+
+# HTTP/S
+iptables -A OUTPUT -p tcp --dport 80  -j ACCEPT
+iptables -A OUTPUT -p tcp --dport 443 -j ACCEPT
+
+# NTP
+iptables -A OUTPUT -p udp --dport 123 -j ACCEPT
+
+# Splunk
+iptables -A OUTPUT -p tcp --dport 8000 -j ACCEPT
+iptables -A OUTPUT -p tcp --dport 8089 -j ACCEPT
+iptables -A OUTPUT -p tcp --dport 9997 -j ACCEPT
+echo "[✓] iptables configured"
 echo "[✓] Cleanup finished successfully."
